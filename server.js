@@ -39,7 +39,7 @@ app.use(cors(corsOptions))
 
 //initial routes
 app.get('/', (req, res)=>{
-    res.status(200).send(`Request received, we're live`)
+    res.status(200).json(`Request received, we're live`)
 })
 app.use('/signup', require('./routes/singup'))
 app.use('/login', require('./routes/login'))
