@@ -1,6 +1,6 @@
 //getting environment variables
 require("dotenv").config();
-const PORT = process.env.PORT || 3005
+const LISTEN_PORT = process.env.PORT || 3005
 
 //importing middleware
 const { logger, errorHandler } = require('./utils/middleware/logEvents')

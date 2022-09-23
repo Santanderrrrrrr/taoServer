@@ -4,7 +4,8 @@
   "description": "server side to the bei ya jioni web-app",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start":"node server.js"
   },
   "author": "Leon Omollo (Team Santi)",
   "license": "ISC",
