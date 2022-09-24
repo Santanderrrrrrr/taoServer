@@ -60,9 +60,9 @@ app.use(errorHandler)
 
 mongoose.connection.once('open', ()=>{
     console.log('MongoDB connection established')
-    app.listen(PORT, (err) => {
+    app.listen(LISTEN_PORT, (err) => {
         if(err) console.log(err.message)
-        console.log(`server listening on port ${PORT}`)
+        console.log(`server listening on port ${LISTEN_PORT}`)
     })
 })
 

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const PORT = process.env.MONGODB_PORT
+const URI = process.env.MONGODB_URI
 
 const _connect = async()=>{
     try{
-        await mongoose.connect(`mongodb://127.0.0.1:${PORT}/byj`, {
+        await mongoose.connect(`${URI}`, {
             useUnifiedTopology: true,
             useNewUrlParser: true
         })
