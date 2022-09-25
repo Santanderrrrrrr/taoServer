@@ -15,7 +15,7 @@ const _sendMail=(email)=>{
         from: `${process.env.ADMIN_EMAIL}`,
         to:email,
         subject:'BEI YA JIONI: CONFIRM EMAIL ADDRESS',
-        text:`Click the following link to confirm that your email account is real: http://localhost:3005/verify/${email}`
+        text:`Click the following link to confirm that your email account is real: https://beiyajioni.herokuapp.com/${email}`
     }
     mailTransporter.sendMail(details, (err)=>{
         if(err) return console.log('nodemailer failed with the following error:', err.message)
