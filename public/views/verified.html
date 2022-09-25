@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <link rel="stylesheet" href="verified.css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're Verified!</title>
+    <style>
+        *{
+            font-family: helvetica;
+            font-weight: 500;
+        }
+        body{
+            margin: 0 auto;
+            padding: 0;
+        }
+        .mainBody{
+            width: 195px;
+            height: 50vh;
+            /* background: rgb(40,119,158); */
+            background: linear-gradient(164deg, #fff 0%, #1a75ff 30%, rgba(40,119,158,1) 70%, rgba(3,25,4,1) 100%);    
+            border-radius: 15px;
+            margin: 0px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 50px;
+            margin-bottom: auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .textBodyCase{
+            background-color: #fff;
+            /* border: solid 1px rgb(141, 202, 255); */
+            width: 320px;
+            margin-bottom: 50%;
+            margin-top: 50%;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+        .theTick{
+            position: absolute;
+            max-width: 30px;
+            margin-top: -350px;
+            margin-bottom: 0;
+            filter: invert(1)
+        }
+    </style>
+</head>
+<body>
+    <div class="mainBody">
+        <img class="theTick" src="../assets/tick.png"/>
+        <div class="textBodyCase">
+            <h1>You're verified!</h1>
+            <article class="textBody">
+                <p>Thanks for joining us. When the website is up, you'll be the first to know!</p>
+                <p>Remember, if you know someone who wants to sell and buy easily and safely, <b>tell them about us!</b></p>
+            </article>
+        </div>
+    </div>
+    
+</body>
+</html>

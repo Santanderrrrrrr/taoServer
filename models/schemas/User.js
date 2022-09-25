@@ -51,6 +51,10 @@ const UserSchema = new mongoose.Schema({
   },
   picture:{
     type: String
+  },
+  verified:{
+    type: Boolean,
+    default: false
   }
 }, {minimize: false});
 

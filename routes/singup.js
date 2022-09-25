@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const userModel = require('../models/schemas/User')
+const _sendMail = require('../utils/nodemailer')
 
 const handleNewUser = async (req, res) => {
     const { email, password, firstname, lastname, username, telephone, picture } = req.body;
@@ -15,6 +16,7 @@ const handleNewUser = async (req, res) => {
             // res.status(201).json(User)
             
             // console.log(firstname, lastname, username, password, telephone, email);
+            _sendMail(email)
             res.status(201).json({ 'success': `New user ${username} created!` });
         } catch(e){
             let msg = e.code==11000? 'user already exists' : e.message  

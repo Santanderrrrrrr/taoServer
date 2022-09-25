@@ -9,11 +9,13 @@ const { corsOptions, credentials} = require('./utils/middleware/corsConfig')
 const cookieParser = require('cookie-parser')
 const verifyJWT = require('./utils/middleware/verifyJWT')
 
+
 //importing server and db
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 require('./models/connection')
+
 
 
 //for the credentials to be set
@@ -45,6 +47,7 @@ app.use('/signup', require('./routes/singup'))
 app.use('/login', require('./routes/login'))
 app.use('/refresh', require('./routes/refresh'))
 app.use('/logout', require('./routes/logout'))
+app.use('/verify', require('./routes/verifyEmail'))
 
 
 //api routes
