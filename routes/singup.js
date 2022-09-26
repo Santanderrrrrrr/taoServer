@@ -16,7 +16,7 @@ const handleNewUser = async (req, res) => {
             // res.status(201).json(User)
             
             // console.log(firstname, lastname, username, password, telephone, email);
-            _sendMail(email)
+            _sendMail(email, username)
             res.status(201).json({ 'success': `New user ${username} created!` });
         } catch(e){
             let msg = e.code==11000? 'user already exists' : e.message  
