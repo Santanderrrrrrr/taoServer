@@ -55,6 +55,10 @@ const UserSchema = new mongoose.Schema({
   verified:{
     type: Boolean,
     default: false
+  },
+  bio:{
+    type: String,
+    default: "Hi, I buy/sell on BeiYaJioni"
   }
 }, {minimize: false});
 

@@ -51,7 +51,12 @@ app.use('/verify', require('./routes/verifyEmail'))
 
 
 //api routes
+//authorization first
 app.use(verifyJWT)
+
+//actual api routes
+app.use('/users', require('./routes/api/userApi'));
+
 
 
 
