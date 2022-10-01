@@ -73,7 +73,19 @@ exports.getProduct = async function(req, res){
 
     const product = await productModel.findOne({ _id: req.params.prodID }).exec();
     if (!product) {
+        console.log('so there are no projects yet')
         return res.status(204).json({ "message": `No Product matches ID ${req.params.id}.` });
     }
     res.json(product);
+}
+
+exports.getFiltered = async function(req, res){
+    var filter = req.query
+    console.log(filter)
+    const result = await productModel.find(filter)  
+    
+    if(!result || result === null) return res.status(400).send({ "message":"No such product found"})
+    return res.status(200).send(result)
+    
+    
 }

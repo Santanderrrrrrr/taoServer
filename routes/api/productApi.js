@@ -15,8 +15,11 @@ router.route('/')
     .get(productController.getAllProducts)
     .put(verifMid, productController.updateProduct)
     .delete(verifMid, productController.deleteProduct);
-
+    
+router.route('/aspect')
+    .get(productController.getFiltered)
 router.route('/:prodID')
     .get(productController.getProduct);
+
 
 module.exports = router
