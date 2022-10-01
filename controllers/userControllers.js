@@ -32,7 +32,8 @@ const deleteUser = async(req, res)=>{
     
     if (!req?.body?.id) return res.status(400).json({ 'message': 'User ID required.' });
     
-    const user = await userModel.findOne({ _id: req.body.id }).exec();
+    const user = await userModel.findOne({ _id: req.body.id })
+    .exec();
     if (!user) {
         return res.status(204).json({ "message": `No User matches ID ${req.body.id}.` });
     }

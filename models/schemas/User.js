@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const {isEmail} = require('validator');
 const bcrypt = require('bcrypt');
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   firstname: {
     type: String,
     required: [true, "firstname can't be blank"]
@@ -60,9 +60,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "Hi, I buy/sell on BeiYaJioni"
   }
-}, {minimize: false});
+}, {minimize: false, timestamps: true});
 
-UserSchema.pre('save', function(next){
+userSchema.pre('save', function(next){
   const user = this;
   if(!user.isModified('password')) return next();
 
@@ -81,14 +81,14 @@ UserSchema.pre('save', function(next){
 })
 
 
-UserSchema.methods.toJSON = function(){
+userSchema.methods.toJSON = function(){
   const user = this;
   const userObject = user.toObject();
   delete userObject.password;
   return userObject;
 }
 
-UserSchema.statics.findByCredentials = async function(email, password) {
+userSchema.statics.findByCredentials = async function(email, password) {
   const user = await User.findOne({email});
   if(!user) throw new Error('invalid email or password');
 
@@ -98,6 +98,6 @@ UserSchema.statics.findByCredentials = async function(email, password) {
 }
 
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User

@@ -56,6 +56,7 @@ app.use(verifyJWT)
 
 //actual api routes
 app.use('/users', require('./routes/api/userApi'));
+app.use('/products', require('./routes/api/productApi'))
 
 
 
