@@ -12,6 +12,16 @@ const productSchema = new mongoose.Schema({
        required: true,
        ref: 'Category'
     },
+    sizeId: {
+       type: ObjectID,
+       required: true,
+       ref: 'Size'
+    },
+    genderId:{
+        type: ObjectID,
+        required: true,
+        ref: 'Gender'
+    },
     inventory:{
         type: Number,
         required: true,

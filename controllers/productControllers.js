@@ -1,10 +1,12 @@
 const productModel = require('../models/schemas/Product')
 const categoryModel = require('../models/schemas/Category')
+const sizeModel = require('../models/schemas/Size')
+const genderModel = require('../models/schemas/Gender')
 
 
 exports.createProduct = async function(req, res){
-    const { userID, name, description, price, images, inventory, category } = req.body;
-    if (!name || !description || !price || !images ||!inventory || !category) return res.status(400).json({ 'message': 'All fields must be filled!' });
+    const { userID, name, description, price, images, inventory, category, size, gender } = req.body;
+    if (!name || !description || !price || !images ||!inventory || !category || !size || !gender) return res.status(400).json({ 'message': 'All fields must be filled!' });
    
     
     // create product(should check for duplicate product in the db) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -12,8 +14,12 @@ exports.createProduct = async function(req, res){
         try{
             let Category = await categoryModel.findOne({"name": category})
             if(!Category) Category = await categoryModel.create({"name":category})
+            let Size = await sizeModel.findOne({"name": size})
+            if(!Size) Size = await sizeModel.create({"name":size})
+            let Gender = await genderModel.findOne({"name": gender})
+            if(!Gender) Gender = await genderModel.create({"name":gender})
 
-            const Product = await productModel.create({sellerId : userID , name, description, price, inventory, images, categoryId : Category._id})
+            const Product = await productModel.create({sellerId : userID , name, description, price, inventory, images, categoryId : Category._id, sizeId: Size._id, genderId: Gender._id})
             res.status(201).send(Product)
             
             Product.categoryID = Category._id

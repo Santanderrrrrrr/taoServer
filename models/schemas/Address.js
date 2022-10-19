@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const ObjectID = mongoose.Schema.Types.ObjectId
 
-const address = new mongoose.Schema({
+const addressSchema = new mongoose.Schema({
     userId:{
         type: ObjectID,
         ref: 'User',
@@ -26,3 +26,7 @@ const address = new mongoose.Schema({
         type: String,
     },
 })
+
+const Address = mongoose.model('Address', addressSchema)
+
+module.exports = Address
