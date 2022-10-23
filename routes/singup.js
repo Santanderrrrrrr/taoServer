@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const userModel = require('../models/schemas/User')
-const _sendMail = require('../utils/nodemailer')
+const {_sendMail} = require('../utils/nodemailer')
 
 const handleNewUser = async (req, res) => {
     const { email, password, firstname, lastname, username, telephone, picture } = req.body;

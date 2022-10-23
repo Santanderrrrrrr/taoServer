@@ -1,0 +1,20 @@
+{{!-- try{
+                fetch(`http://localhost:3005/forgot/reset`,{
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        email: theDeetsTag.dataset.email,
+                        thatToken: theDeetsTag.dataset.token,
+                        password: thePassword
+                    })
+                })
+                {{!-- .then((data)=>setTheStatus(data.status)) 
+                console.log('done')
+                if(theStatus === 200) navigate('/home') --}}
+            }catch(error){
+                console.log(error)
+            } --}}

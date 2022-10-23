@@ -35,7 +35,7 @@ const handleLogin = async (req, res) => {
         foundUser.refreshToken = refreshToken;
         await foundUser.save();
                         
-        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 }); //secure: true, 
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000, secure: true }); 
         res.json({ accessToken });
     }catch(e){
         res.status(401).json({ error: e.message, status: 'unauthorized' });

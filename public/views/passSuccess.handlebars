@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <link rel="stylesheet" href="verified.css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success!</title>
+    <style>
+        *{
+            font-family: helvetica;
+            font-weight: 500;
+            margin: 0;
+        }
+        body{
+            margin: 0 auto;
+            padding: 0;
+        }
+        .mainBody{
+            width: 390px;
+            height: 50vh;
+            /* background: rgb(40,119,158); */
+            background: linear-gradient(0deg, #fff 5%, #1a75ff 50%, rgba(9,29,150,1) 100%);    
+            border-radius: 15px;
+            margin: 0px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 50px;
+            margin-bottom: auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .instructionSetBeta{
+            width: 260px;
+            border-radius: 15px;
+            border: 1px solid #1a75ff;
+            background:#fff;
+            padding: 30px;
+            margin-bottom: 10px;
+        }
+
+        .actualInstructionBeta{
+            font-weight: 700;
+
+        }
+
+        #password-reset-formBeta{
+            background: linear-gradient(180deg, #fff 0%, #f7f7f7 100%);
+            width: 260px;
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        #password-reset-formBeta>p{
+            font-weight: 700;
+
+        }
+        #password-reset-formBeta>p>a{
+            font-weight: 900;
+            text-decoration: none;
+            color:#1a75ff;
+        }
+
+        
+        .theLogoItself{
+            margin-top: 20px;
+            display: block; 
+            max-width: 150px; 
+            width: 150px; 
+            min-width: 48px;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div class="mainBody">
+        <img class="theLogoItself" src="https://res.cloudinary.com/da8acjr2s/image/upload/v1664218694/logo_cexfga.png" alt="Logo">
+        <div class="instructionSetBeta">
+            <p class="actualInstructionBeta">Thanks, {{userEmail}}, for your patience. It paid off! Your password's been reset!</p>
+        </div> 
+        <div id="password-reset-formBeta"> <p>You can safely close this page and head to <a href="http://www.beiyajioni.shop"><i>Bei Ya Jioni</i></a> to log in with your brand new password!</p></div>
+    </div>
+    
+</body>
+</html>

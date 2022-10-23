@@ -41,9 +41,26 @@ const _sendMail= async(email, username)=>{
     })
 }
 
+const _changePassword = async(email, accessToken)=>{
+    let details={
+        from: `${process.env.ADMIN_EMAIL}`,
+        to:email,
+        subject:'BEI YA JIONI: CHANGE PASSWORD',
+        text: `You forgot your password?. Click the following link to set a new password!`,
+        template: 'forgotPassword',
+        context:{
+            userEmail: email,
+            token: accessToken
+        }
+    }
+    mailTransporter.sendMail(details, (err)=>{
+        if(err) return console.log('nodemailer failed with the following error:', err.message, err)
+        console.log(`password reset sent to ${email}`)
+    })
+}
 
-// _sendMail('leonofaugust@gmail.com', 'Santi')
-module.exports = _sendMail
+
+module.exports = {_sendMail, _changePassword}
 
 
 
