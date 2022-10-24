@@ -94,20 +94,21 @@ const resetPass = async(req, res)=>{
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '1d' }
         );
-        bcrypt.genSalt(10, function(err, salt){
-            if(err) return next(err);
+        // bcrypt.genSalt(10, function(err, salt){
+        //     if(err) return next(err);
         
-            bcrypt.hash(password, salt, function(err, hash){
-              if(err) return next(err);
-                console.log('the hash is: ', hash)
-              toBeReset.password = hash
+        //     bcrypt.hash(password, salt, function(err, hash){
+        //       if(err) return next(err);
+        //         console.log('the hash is: ', hash)
+        //       toBeReset.password = hash
 
               
-            })
+        //     })
         
-          })
+        //   })
     // Saving refreshToken with current user
         toBeReset.refreshToken = refreshToken;
+        toBeReset.password = password;
         await toBeReset.save();
 
         // let justReset = await userModel.findOneAndUpdate(filter, passUpdate, {new: true})
