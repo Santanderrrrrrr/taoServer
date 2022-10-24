@@ -43,10 +43,13 @@ const resetRequest = async(req, res)=>{
         const { email, theToken } = req.params
         const filter = { email: email}
         const update = { refreshToken: ""}
+        console.log(filter, update)
 
         console.log('201')
         let updatedUser = await userModel.findOneAndUpdate(filter, update)
         if(!updatedUser) res.status(404).send('User non-existent')
+
+        console.log('201-b')
         // verify access token and create JWTs
         const decoded = jwt.verify(
             theToken,
