@@ -43,7 +43,7 @@ const resetRequest = async(req, res)=>{
         const { email, theToken } = req.params
         const filter = { email: email}
         const update = { refreshToken: ""}
-        console.log(filter, update)
+        console.log(filter, update, theToken)
 
         console.log('201')
         let updatedUser = await userModel.findOneAndUpdate(filter, update)
