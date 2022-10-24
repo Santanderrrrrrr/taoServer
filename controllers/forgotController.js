@@ -101,7 +101,6 @@ const resetPass = async(req, res)=>{
               if(err) return next(err);
                 console.log('the hash is: ', hash)
               toBeReset.password = hash
-              console.log('the hashpass is: ', hashPass)
 
               
             })
