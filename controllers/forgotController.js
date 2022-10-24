@@ -77,7 +77,7 @@ const resetRequest = async(req, res)=>{
 const resetPass = async(req, res)=>{
     console.log('step 3!')
     const { email, thatToken, password } = req.body
-    var hashPass;
+    var hashPass = '';
         
     try{
         let filter = { email: email}
@@ -108,7 +108,7 @@ const resetPass = async(req, res)=>{
             })
         
           })
-        console.log(hashPass)
+        console.log('hashpass is: ', hashPass)
     // Saving refreshToken with current user
         toBeReset.refreshToken = refreshToken;
         toBeReset.password = hashPass
