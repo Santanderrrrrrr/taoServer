@@ -82,16 +82,17 @@ const resetPass = async(req, res)=>{
     const { email, thatToken, password } = req.body
     var hashPass;
     
-    // console.log("here's the email token and password", email, thatToken, password)
+    console.log("here's the email token and password", email, thatToken, password)
+    console.log('301')
     
     try{
         let filter = { email: email}
 
         const toBeReset = await userModel.findOne(filter)
         if(!toBeReset) return res.status(404).json({'error':`there's no user with email ${email} in db`})
-
+        console.log('302')
         const decoded = jwt.verify( thatToken, process.env.ACCESS_TOKEN_SECRET )
-
+        console.log('303')
         if(toBeReset.username !== decoded.username) return res.status(403).json({"message":"Forbidden activity. You are not the user you're trying to edit."})
 
         const refreshToken = jwt.sign(
@@ -102,7 +103,7 @@ const resetPass = async(req, res)=>{
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '1d' }
         );
-
+            console.log('304')
         bcrypt.genSalt(10, function(err, salt){
             if(err) return next(err);
         
@@ -115,7 +116,7 @@ const resetPass = async(req, res)=>{
             })
         
           })
-
+          console.log('305')
     // Saving refreshToken with current user
         toBeReset.refreshToken = refreshToken;
         await toBeReset.save();
@@ -123,13 +124,13 @@ const resetPass = async(req, res)=>{
         let passUpdate = {password: hashPass}
         let justReset = await userModel.findOneAndUpdate(filter, passUpdate, {new: true})
 
-
+          console.log('306')
         if(!justReset) return res.status(500).json({message:`Password update for ${email} failed.`})
 
         // console.log('big success')
-        
+        console.log('307')
         return res.status(200).send(`Changes made successfully`)
-
+          console.log('308')
     }catch(err){
         if(err.message===`Password update for ${email} failed`){
             console.log({message: 'password reset failed at Mongo'})
