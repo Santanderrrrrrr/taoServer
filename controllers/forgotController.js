@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const userModel = require('../models/schemas/User')
 const {_changePassword} = require('../utils/nodemailer')
 const bcrypt = require('bcrypt')
+require('dotenv').config();
+
 
 
 //step 1: user sends their email here and an email reset link is sent to them
@@ -50,22 +52,21 @@ const resetRequest = async(req, res)=>{
         if(!updatedUser) res.status(404).send('User non-existent')
         console.log(updatedUser)
         console.log('201-b')
-        // if(req.timedout) return res.status(408).json({message: 'Token verification took too long.'})
-        // // verify access token and create JWTs
-        // const decoded = jwt.verify(
-        //     theToken,
-        //     process.env.ACCESS_TOKEN_SECRET    
-        // );
+        // verify access token and create JWTs
+        const decoded = jwt.verify(
+            theToken,
+            process.env.ACCESS_TOKEN_SECRET    
+        );
         console.log('202')
 
-        // if(decoded.username !== updatedUser.username) res.status(403).json({"message":"Forbidden activity. You are not the user you're trying to edit."})
+        if(decoded.username !== updatedUser.username) res.status(403).json({"message":"Forbidden activity. You are not the user you're trying to edit."})
                         
         console.log('203')
 
         // res.status(200).sendFile(path.join(__dirname,'..','public','views', '/resetPassword.html'));
         res.status(200).render('resetPassword', {helpers:{
             userEmail: function(){ return `${email}`},
-            userName: function(){ return `${updatedUser.username}`},
+            userName: function(){ return `${decoded.username}`},
             userToken: function(){ return `${theToken}`},
             title: function(){ return `Reset Password!`}
         }})
