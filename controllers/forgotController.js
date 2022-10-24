@@ -77,7 +77,6 @@ const resetRequest = async(req, res)=>{
 const resetPass = async(req, res)=>{
     console.log('step 3!')
     const { email, thatToken, password } = req.body
-    var hashPass = '';
         
     try{
         let filter = { email: email}
@@ -101,7 +100,7 @@ const resetPass = async(req, res)=>{
             bcrypt.hash(password, salt, function(err, hash){
               if(err) return next(err);
                 console.log('the hash is: ', hash)
-              hashPass = hash
+              toBeReset.password = hash
               console.log('the hashpass is: ', hashPass)
 
               
@@ -111,7 +110,6 @@ const resetPass = async(req, res)=>{
         console.log('hashpass is: ', hashPass)
     // Saving refreshToken with current user
         toBeReset.refreshToken = refreshToken;
-        toBeReset.password = hashPass
         await toBeReset.save();
 
         // let justReset = await userModel.findOneAndUpdate(filter, passUpdate, {new: true})
