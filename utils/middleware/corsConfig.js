@@ -1,5 +1,6 @@
 const allowedOrigins = [
     'https://www.beiyajioni.shop',
+    'https://beiyajioni.herokuapp.com/',
     'http://127.0.0.1:3000',
     'http://localhost:3000',
     'http://localhost:3005'
