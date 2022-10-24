@@ -100,8 +100,10 @@ const resetPass = async(req, res)=>{
         
             bcrypt.hash(password, salt, function(err, hash){
               if(err) return next(err);
-        
+                console.log('the hash is: ', hash)
               hashPass = hash
+              console.log('the hashpass is: ', hashPass)
+
               
             })
         
