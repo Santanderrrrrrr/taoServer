@@ -78,9 +78,7 @@ const resetPass = async(req, res)=>{
     console.log('step 3!')
     const { email, thatToken, password } = req.body
     var hashPass;
-    
-    console.log("here's the email token and password", email, thatToken, password)
-    
+        
     try{
         let filter = { email: email}
 
@@ -104,21 +102,20 @@ const resetPass = async(req, res)=>{
               if(err) return next(err);
         
               hashPass = hash
-            //   console.log(hash)
               
             })
         
           })
     // Saving refreshToken with current user
         toBeReset.refreshToken = refreshToken;
+        toBeReset.password = hashPass
         await toBeReset.save();
 
-        let passUpdate = {password: hashPass}
-        let justReset = await userModel.findOneAndUpdate(filter, passUpdate, {new: true})
+        // let justReset = await userModel.findOneAndUpdate(filter, passUpdate, {new: true})
 
-        if(!justReset) return res.status(500).json({message:`Password update for ${email} failed.`})
+        // if(!justReset) return res.status(500).json({message:`Password update for ${email} failed.`})
 
-        // console.log('big success')
+        // console.log(toBeReset)
         return res.status(200).send(`Changes made successfully`)
     }catch(err){
         if(err.message===`Password update for ${email} failed`){
