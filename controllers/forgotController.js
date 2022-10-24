@@ -50,6 +50,7 @@ const resetRequest = async(req, res)=>{
         if(!updatedUser) res.status(404).send('User non-existent')
 
         console.log('201-b')
+        if(req.timedout) return res.status(408).json({message: 'Token verification took too long.'})
         // verify access token and create JWTs
         const decoded = jwt.verify(
             theToken,
