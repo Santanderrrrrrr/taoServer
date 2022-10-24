@@ -108,6 +108,7 @@ const resetPass = async(req, res)=>{
             })
         
           })
+        console.log(hashPass)
     // Saving refreshToken with current user
         toBeReset.refreshToken = refreshToken;
         toBeReset.password = hashPass
