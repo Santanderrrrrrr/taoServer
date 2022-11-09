@@ -31,11 +31,11 @@ app.use(credentials)
 //middleware created for logging all requests
 app.use(logger)
 
-//for the cookies to be handles
+//for the cookies to be handled
 //middleware for cookies
 app.use(cookieParser())
 
-//middleware for urlencoded
+//middleware for parsing urlencoded data in get requests
 app.use(express.urlencoded({extended: true}))
 
 //middleware for reading out json

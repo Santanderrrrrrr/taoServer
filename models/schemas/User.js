@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
   refreshToken:{
     type: String
   },
-  picture:{
+  location:{
     type: String
   },
   verified:{

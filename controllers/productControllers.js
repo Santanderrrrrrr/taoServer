@@ -11,25 +11,25 @@ exports.createProduct = async function(req, res){
     
     // create product(should check for duplicate product in the db) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     
-        try{
-            let Category = await categoryModel.findOne({"name": category})
-            if(!Category) Category = await categoryModel.create({"name":category})
-            let Size = await sizeModel.findOne({"name": size})
-            if(!Size) Size = await sizeModel.create({"name":size})
-            let Gender = await genderModel.findOne({"name": gender})
-            if(!Gender) Gender = await genderModel.create({"name":gender})
+    try{
+        let Category = await categoryModel.findOne({"name": category})
+        if(!Category) Category = await categoryModel.create({"name":category})
+        let Size = await sizeModel.findOne({"name": size})
+        if(!Size) Size = await sizeModel.create({"name":size})
+        let Gender = await genderModel.findOne({"name": gender})
+        if(!Gender) Gender = await genderModel.create({"name":gender})
 
-            const Product = await productModel.create({sellerId : userID , name, description, price, inventory, images, categoryId : Category._id, sizeId: Size._id, genderId: Gender._id})
-            res.status(201).send(Product)
-            
-            Product.categoryID = Category._id
-            await Product.save()
-            
-        } catch(e){
-            let msg = e.code==11000? 'product already exists' : e.message  
-            console.log(e)
-            res.status(409).json(msg) //Conflict code
-        }
+        const Product = await productModel.create({sellerId : userID , name, description, price, inventory, images, categoryId : Category._id, sizeId: Size._id, genderId: Gender._id})
+        res.status(201).send(Product)
+        
+        Product.categoryID = Category._id
+        await Product.save()
+        
+    } catch(e){
+        let msg = e.code==11000? 'product already exists' : e.message  
+        console.log(e)
+        res.status(409).json(msg) //Conflict code
+    }
     
 
 }

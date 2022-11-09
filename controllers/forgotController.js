@@ -94,28 +94,12 @@ const resetPass = async(req, res)=>{
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '1d' }
         );
-        // bcrypt.genSalt(10, function(err, salt){
-        //     if(err) return next(err);
         
-        //     bcrypt.hash(password, salt, function(err, hash){
-        //       if(err) return next(err);
-        //         console.log('the hash is: ', hash)
-        //       toBeReset.password = hash
-
-              
-        //     })
-        
-        //   })
     // Saving refreshToken with current user
         toBeReset.refreshToken = refreshToken;
         toBeReset.password = password;
         await toBeReset.save();
 
-        // let justReset = await userModel.findOneAndUpdate(filter, passUpdate, {new: true})
-
-        // if(!justReset) return res.status(500).json({message:`Password update for ${email} failed.`})
-
-        // console.log(toBeReset)
         return res.status(200).send(`Changes made successfully`)
     }catch(err){
         if(err.message===`Password update for ${email} failed`){

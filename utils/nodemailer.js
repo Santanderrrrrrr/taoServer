@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer')
-const hbs = require('nodemailer-express-handlebars')
+const nhbs = require('nodemailer-express-handlebars')
 const path = require('path')
 require('dotenv').config()
 
@@ -13,7 +13,7 @@ let mailTransporter = nodemailer.createTransport({                              
     }
 }) 
 
-mailTransporter.use('compile', hbs({
+mailTransporter.use('compile', nhbs({
     viewEngine: {
         extName: ".handlebars",
         partialsDir: path.resolve(__dirname, '..','public/views'),
