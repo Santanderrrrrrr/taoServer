@@ -24,6 +24,9 @@ router.route('/')
     .put(jwtForUpdateDelete, userControllers.updateUser)
     .delete(jwtForUpdateDelete, userControllers.deleteUser);
 
+router.route('/me') 
+    .get(userControllers.getMe)
+
 router.route('/:id')
     .get(userControllers.getUser);
 

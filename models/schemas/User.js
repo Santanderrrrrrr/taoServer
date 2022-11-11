@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
   },
   picture: {
     type: String,
+    required: [true, "picture can't be blank"]
   },
   followers: [{
     type: String
@@ -87,6 +88,7 @@ userSchema.methods.toJSON = function(){
   const user = this;
   const userObject = user.toObject();
   delete userObject.password;
+  delete userObject.refreshToken;
   return userObject;
 }
 

@@ -51,9 +51,23 @@ const getUser = async (req, res) => {
     res.json(user);
 }
 
+const getMe = async (req, res)=>{
+    try{
+        const me = req.user
+        const dbMe = await userModel.findOne({username: me}).exec()
+        if(!dbMe){
+            return res.status(404).json({ "message": "User not found." });
+        }
+        res.status(200).json(dbMe)
+    }catch(e){
+        console.log(e)
+    }
+}
+
 module.exports = {
     getAllUsers,
     updateUser,
     deleteUser,
-    getUser
+    getUser,
+    getMe
 }
