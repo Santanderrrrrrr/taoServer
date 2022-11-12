@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   },
   username: {
     type: String,
+    unique: true,
     required: [true, "Username can't be blank"]
   },
   email: {
