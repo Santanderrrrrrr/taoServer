@@ -18,6 +18,8 @@ router.route('/')
     
 router.route('/aspect')
     .get(productController.getFiltered)
+router.route('/u/:userId')
+    .get(productController.getUserProds)
 router.route('/:prodID')
     .get(productController.getProduct);
 

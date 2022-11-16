@@ -1,6 +1,7 @@
 const productModel = require('../models/schemas/Product')
 const categoryModel = require('../models/schemas/Category')
 const sizeModel = require('../models/schemas/Size')
+const UserModel = require('../models/schemas/User')
 const genderModel = require('../models/schemas/Gender')
 
 
@@ -79,7 +80,7 @@ exports.getProduct = async function(req, res){
 
     const product = await productModel.findOne({ _id: req.params.prodID }).exec();
     if (!product) {
-        console.log('so there are no projects yet')
+        console.log('so there are no products yet')
         return res.status(204).json({ "message": `No Product matches ID ${req.params.id}.` });
     }
     res.json(product);
@@ -94,4 +95,31 @@ exports.getFiltered = async function(req, res){
     return res.status(200).send(result)
     
     
+}
+
+exports.getUserProds = async(req, res)=>{
+    const userId = req.params.userId
+    if(!userId){
+        return res.status(404).send({ "message": "User not found"})
+    }
+    const products = await productModel.find({sellerId: userId})
+        .sort({ _id: -1 })
+        .populate("sellerId", "username")
+        .populate("categoryId", "name")
+        .populate("sizeId", "name")
+        .populate("genderId", "name")
+        .exec()
+    if(!products){
+        return res.status(404).send({ "message": "User has no products just yet. :)"})
+    }
+    // const productGender = await genderModel.findOne({_id:})
+    const prodArray = []
+
+    for (let i = 0; i<products.length; i++) {
+        let product = products[i]
+        let prodSeller = UserModel.findOne({_id: products[i].sellerId})
+        // product.sellerId = prodSeller.username
+        prodArray.push(product)
+    }
+    return res.status(200).json(products)
 }

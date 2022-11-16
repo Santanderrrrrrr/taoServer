@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const ObjectID = mongoose.Schema.Types.ObjectId
+const User = require('./User')
 
 const productSchema = new mongoose.Schema({
     sellerId:{
@@ -50,6 +51,17 @@ const productSchema = new mongoose.Schema({
      minimize: false
     }
 )
+
+// productSchema.methods.toJSON = function(){
+//     const product = this;
+//     // product.populate('sellerId')
+//     // console.log(product.sellerId.firstname)
+//     productObject = product.toObject();
+//     // delete productObject.sellerId;
+//     // delete productObject.categoryId;
+//     productObject = {...productObject, seller: product.sellerId.name || 'failed'}
+//     return productObject;
+//   }
 
 const Product = mongoose.model('Product', productSchema)
 module.exports = Product
