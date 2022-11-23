@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const ObjectID = mongoose.Schema.Types.ObjectId
-const User = require('./User')
 
 const productSchema = new mongoose.Schema({
     sellerId:{
@@ -45,7 +44,11 @@ const productSchema = new mongoose.Schema({
      },
      images:{
         type:[String]
-     }
+     },
+     likes: [{
+        type:ObjectID,
+        ref: 'Like'
+     }]
     }, {
      timestamps: true,
      minimize: false

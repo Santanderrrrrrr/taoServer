@@ -34,10 +34,10 @@ const handleLogin = async (req, res) => {
         // Saving refreshToken with current user
         foundUser.refreshToken = refreshToken;
         await foundUser.save();
-        let id = foundUser._id.toString();
+        let user = foundUser.toJSON();
                         
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000, secure: true }); 
-        res.json({ accessToken, id});
+        res.json({ accessToken, user});
     }catch(e){
         res.status(401).json({ error: e.message, status: 'unauthorized' });
     }

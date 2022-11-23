@@ -3,6 +3,7 @@ const categoryModel = require('../models/schemas/Category')
 const sizeModel = require('../models/schemas/Size')
 const UserModel = require('../models/schemas/User')
 const genderModel = require('../models/schemas/Gender')
+const likeModel = require('../models/schemas/Like')
 
 
 exports.createProduct = async function(req, res){
@@ -122,4 +123,84 @@ exports.getUserProds = async(req, res)=>{
         prodArray.push(product)
     }
     return res.status(200).json(products)
+}
+
+exports.likeProduct=async(req, res)=>{
+    try{
+        const { prodId } = req.body
+        const user = req.id
+        //ensure product id and user id are present
+        if(!prodId){
+            return res.status(404).json({ message: "no such product exists yet :)"})
+        }
+        if(!user){
+            return res.status(401).json({ message: "you have to be logged in to like :)"})
+        }
+
+        //finding the product from DB
+        let prodToLike = await productModel.findOne({_id: prodId})
+        if(!prodToLike){
+            return res.status(500).json({ message: "no such product was found in db :)"})
+        }
+
+        let theLike = await likeModel.findOne({user, product: prodToLike._id})
+        console.log(theLike)
+        //logic to check if product is already liked
+        if(!theLike){
+            theLike = await likeModel.create({user, product: prodToLike._id})
+        }
+        console.log(theLike)
+        let productLiked = prodToLike.likes.indexOf(theLike.user) !== -1
+
+        // logic to add user to liked list
+        if(productLiked){
+            return res.status(200).json({message: "You already liked this."}) 
+        }   
+        prodToLike = await productModel.findOneAndUpdate(
+            {_id: prodId},
+            {$push:{likes: theLike.user}},
+            {new:true}
+        )        
+        res.status(200).json({message: "liked", prodToLike})
+    }catch(e){
+        console.log(e)
+        res.status(500).json({message: `failed with error ${e.message}`})
+    }
+    
+}
+exports.unlikeProduct=async(req, res)=>{
+    try{
+        const { prodId } = req.body
+        const user = req.id
+        //ensure product id and user id are present
+        if(!prodId){
+            return res.status(404).json({ message: "no such product exists yet :)"})
+        }
+        if(!user){
+            return res.status(401).json({ message: "you have to be logged in to unlike :)"})
+        }
+
+        //finding the product from DB
+        let prodToUnlike = await productModel.findOne({_id: prodId})
+        if(!prodToUnlike){
+            return res.status(500).json({ message: "no such product was found in db :)"})
+        }
+
+        // logic to remove user from liked list
+        prodToUnlike = await productModel.findOneAndUpdate(
+            {_id: prodId},
+            {$pull:{likes: user}},
+            {new:true}
+        )        
+        let stillLiked = prodToUnlike.likes.includes(user)
+        let userIndex = prodToUnlike.likes.indexOf(user)
+        if(stillLiked){
+            prodToUnlike.likes.splice(userIndex, 1, "")
+        }
+        res.status(200).json({message: "unliked", prodToUnlike})                       
+    }catch(e){
+        console.log(e)
+        res.status(500).json({message: `failed with error ${e.message}`})
+    }
+    
 }

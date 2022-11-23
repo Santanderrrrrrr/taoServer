@@ -22,6 +22,10 @@ router.route('/u/:userId')
     .get(productController.getUserProds)
 router.route('/:prodID')
     .get(productController.getProduct);
+router.route('/like')
+    .patch(productController.likeProduct);
+router.route('/unlike')
+    .patch(productController.unlikeProduct);
 
 
 module.exports = router
