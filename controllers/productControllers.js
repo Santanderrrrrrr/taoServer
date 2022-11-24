@@ -66,6 +66,7 @@ exports.updateProduct = async function(req, res){
 
 exports.deleteProduct = async function(req, res){
     if (!req?.body?.updates?.prodID) return res.status(400).json({ 'message': 'Product ID required.' });
+    console.log('simple hit')
     
     const product = await productModel.findOne({ _id: req.body.updates.prodID })
     .exec();
@@ -154,14 +155,18 @@ exports.likeProduct=async(req, res)=>{
 
         // logic to add user to liked list
         if(productLiked){
-            return res.status(200).json({message: "You already liked this."}) 
+            return res.status(401).json({message: "You already liked this."}) 
         }   
         prodToLike = await productModel.findOneAndUpdate(
             {_id: prodId},
             {$push:{likes: theLike.user}},
             {new:true}
-        )        
-        res.status(200).json({message: "liked", prodToLike})
+        ).populate("sellerId", "username")
+        .populate("categoryId", "name")
+        .populate("sizeId", "name")
+        .populate("genderId", "name")        
+
+        res.status(200).json({message: "like", product: prodToLike})
     }catch(e){
         console.log(e)
         res.status(500).json({message: `failed with error ${e.message}`})
@@ -191,13 +196,17 @@ exports.unlikeProduct=async(req, res)=>{
             {_id: prodId},
             {$pull:{likes: user}},
             {new:true}
-        )        
+        ).populate("sellerId", "username")
+        .populate("categoryId", "name")
+        .populate("sizeId", "name")
+        .populate("genderId", "name")
+
         let stillLiked = prodToUnlike.likes.includes(user)
         let userIndex = prodToUnlike.likes.indexOf(user)
         if(stillLiked){
             prodToUnlike.likes.splice(userIndex, 1, "")
         }
-        res.status(200).json({message: "unliked", prodToUnlike})                       
+        res.status(200).json({message: "unlike", product: prodToUnlike})                       
     }catch(e){
         console.log(e)
         res.status(500).json({message: `failed with error ${e.message}`})
