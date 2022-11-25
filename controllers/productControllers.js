@@ -66,7 +66,6 @@ exports.updateProduct = async function(req, res){
 
 exports.deleteProduct = async function(req, res){
     if (!req?.body?.updates?.prodID) return res.status(400).json({ 'message': 'Product ID required.' });
-    console.log('simple hit')
     
     const product = await productModel.findOne({ _id: req.body.updates.prodID })
     .exec();
