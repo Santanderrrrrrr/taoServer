@@ -37,42 +37,73 @@ exports.createProduct = async function(req, res){
 }
 
 exports.getAllProducts = async function(req, res){
-    const products = await productModel.find();
-    if (!products) return res.status(400).json({ "message": "No products yet... Add the first one!" });
-    res.json(products);
+    try{
+        
+        const products = await productModel.find();
+        if (!products) return res.status(400).json({ "message": "No products yet... Add the first one!" });
+        res.json(products);
+    }catch(error){
+        conole.log(error)
+        res.status(500).send(error.message)
+    }
 }
 
 exports.updateProduct = async function(req, res){
-    
-    const { prodname, description, price } = req.body.updates
-    console.log('this is the req id: ', req.id)
-    let updates = {}
-    updates = {...updates, name : prodname, description, price}
-    
-    if(!updates) return res.status(400).json({ "message": "no changes registered"})
-
-    
+    console.log('simple hit')
+    try{    
+        console.log(req.body)
+        const { updates, prodId } = req.body
+        console.log('these are the updates: ',updates)
+        console.log('this is the prodId: ',prodId)
         
-    await productModel.findOneAndUpdate({'_id': req.body.updates.prodID}, {'$set':updates}, {new: true})
-    .exec(function(err, product){
-        if (err){
-            console.log(err.message)
-            res.status(500).send(err.message)
-        }else{
-            res.send(product)
+        if(!updates) return res.status(400).json({ "message": "no changes registered"})
+        if(updates.category){
+            const cat = await categoryModel.findOne({name: updates.category})
+            delete updates.category
+            updates.categoryId = cat._id
         }
-    });
+        if(updates.size){
+            const cat = await sizeModel.findOne({name: updates.size})
+            delete updates.size
+            updates.sizeId = cat._id
+        }
+        if(updates.gender){
+            const cat = await genderModel.findOne({name: updates.gender})
+            delete updates.gender
+            updates.genderId = cat._id
+        }
+
+        
+            
+        await productModel.findOneAndUpdate({'_id': prodId }, {'$set':updates}, {new: true})
+        .sort({ _id: -1 })
+        .populate("sellerId", "username")
+        .populate("categoryId", "name")
+        .populate("sizeId", "name")
+        .populate("genderId", "name")
+        .exec(function(err, product){
+            if (err){
+                throw new Error(err.message)
+            }else{
+                console.log(product)
+                res.status(200).json({product})
+            }
+        });
+    }catch(error){
+        console.log(error)
+        res.status(500).send(err.message)
+    }
 }
 
 exports.deleteProduct = async function(req, res){
-    if (!req?.body?.updates?.prodID) return res.status(400).json({ 'message': 'Product ID required.' });
+    if (!req?.body?.prodId) return res.status(400).json({ 'message': 'Product ID required.' });
     
-    const product = await productModel.findOne({ _id: req.body.updates.prodID })
+    const product = await productModel.findOne({ _id: req.body.prodId })
     .exec();
     if (!product) {
-        return res.status(204).json({ "message": `No product matches ID ${req.body.updates.prodID}.` });
+        return res.status(204).json({ "message": `No product matches ID ${req.body.prodId}.` });
     }
-    const result = await productModel.deleteOne({ _id: req.body.updates.prodID }); 
+    const result = await productModel.deleteOne({ _id: req.body.prodId }); 
     res.json({result, "message":`product ${product.name} of id ${product._id} deleted`});
 }
 
