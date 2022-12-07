@@ -39,7 +39,7 @@ const handleLogin = async (req, res) => {
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000, secure: true }); 
         res.json({ accessToken, user});
     }catch(e){
-        res.status(401).json({ error: e.message, status: 'unauthorized' });
+        res.status(401).json({ error: e.message, status: 'you hit login but unauthorized' });
     }
     
 }
