@@ -48,7 +48,7 @@ app.use(cors(corsOptions))
 
 //initial routes
 app.get('/', (req, res)=>{
-    // res.status(200).json(`Request received, we're live`)
+    res.status(200).send(`Request received, we're live`)
     // res.status(200).render('resetPassword', {helpers:{
     //     foo: function(){ return 'foo'},
     //     bar: function(){ return 'bar'}
