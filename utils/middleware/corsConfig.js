@@ -1,7 +1,9 @@
 const allowedOrigins = [
     'https://www.beiyajioni.shop',
     'https://www.byjserver.com/',
+    'https://www.byjserver.com',
     'https://byjserver.com/',
+    'https://byjserver.com',
     'http://127.0.0.1:3000',
     'http://localhost:3000',
     'http://localhost:3005'
