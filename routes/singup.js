@@ -8,6 +8,11 @@ const handleNewUser = async (req, res) => {
     if (!firstname || !lastname) return res.status(400).json({ 'message': 'We need at least the first and last name' });
     if (!password || !username) return res.status(400).json({ 'message': 'The password and username fields cannot be left empty' });
     if (!telephone || !email) return res.status(400).json({ 'message': 'Email and telephone fields must be filled' });
+
+    email = email.toLowerCase();
+    firstname = firstname.toLowerCase();
+    lastname = lastname.toLowerCase();
+    username = username.toLowerCase();
     
     // create user(should check for duplicate usernames in the db) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     try {

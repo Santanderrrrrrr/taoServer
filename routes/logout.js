@@ -16,7 +16,7 @@ const handleLogout = async (req, res) => {
         const foundUser = await userModel.findOne({refreshToken:cookiesRefreshToken}).exec()
         
         if (!foundUser) {
-            res.clearCookie('jwt', { httpOnly: true, sameSite: 'None' }); //, secure: true
+            res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true }); //
             return res.sendStatus(204); //succesful but there's no content
         }
 
@@ -24,7 +24,7 @@ const handleLogout = async (req, res) => {
         foundUser.refreshToken = '';
         await foundUser.save();
 
-        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None' }); //, secure: true
+        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true }); //
         res.sendStatus(204);
     }catch(e){
         console.log(e)

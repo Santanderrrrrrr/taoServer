@@ -55,6 +55,12 @@ const productSchema = new mongoose.Schema({
     }
 )
 
+productSchema.index({
+    // '$**': 'text'
+    name: "text",
+    description: "text",
+  })
+
 // productSchema.methods.toJSON = function(){
 //     const product = this;
 //     // product.populate('sellerId')

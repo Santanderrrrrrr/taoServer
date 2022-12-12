@@ -9,6 +9,14 @@ const likeModel = require('../models/schemas/Like')
 exports.createProduct = async function(req, res){
     const {name, description, price, images, inventory, category, size, gender } = req.body;
     if (!req.user || !description || !price || !images ||!inventory || !category || !size || !gender) return res.status(400).json({ 'message': 'All fields must be filled!' });
+    name=name.toLowerCase();
+    description = description.toLowerCase();
+    price = price.toLowerCase();
+    images = images.toLowerCase();
+    inventory = inventory.toLowerCase();
+    category = category.toLowerCase();
+    size = size.toLowerCase();
+    gender = gender.toLowerCase();
    
     
     // create product(should check for duplicate product in the db) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -242,4 +250,28 @@ exports.unlikeProduct=async(req, res)=>{
         res.status(500).json({message: `failed with error ${e.message}`})
     }
     
+}
+
+exports.findProduct = async(req, res)=>{
+    const { daiquiri } = req.params
+    console.log(daiquiri)
+    if (!daiquiri){
+        return res.status(304).json({ "message":"search parameter not present"})
+    }
+    try{
+        // const products = await userModel.find({$text: {$search: daiquiri}}).exec()
+        const products = await productModel.find({
+            "$or": [ 
+                { "name" : { $regex: daiquiri }}, 
+                { "description" : { $regex: daiquiri }}, 
+            ]
+        });
+        console.log(products)
+        if(!products){
+            return res.status(204).json({ "message": `No Product matches search parameter ${daiquiri}.` });
+        }
+        res.status(200).json(products)
+    }catch(error){
+        console.log(error)
+    }
 }

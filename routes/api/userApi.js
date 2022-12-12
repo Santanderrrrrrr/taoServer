@@ -24,7 +24,8 @@ router.route('/')
     .put(jwtForUpdateDelete, userControllers.updateUser)
     .delete(jwtForUpdateDelete, userControllers.deleteUser);
 
-
+router.route('/find/:daiquiri')
+    .get(userControllers.findUser)
 
 router.route('/:id')
     .get(userControllers.getUser);

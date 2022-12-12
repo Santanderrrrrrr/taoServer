@@ -51,6 +51,30 @@ const getUser = async (req, res) => {
     res.json(user);
 }
 
+const findUser = async(req, res)=>{
+    const { daiquiri } = req.params
+    console.log(daiquiri)
+    if (!daiquiri){
+        return res.status(304).json({ "message":"search parameter not present"})
+    }
+    try{
+        const users = await userModel.find({
+            "$or": [ 
+                { "firstname" : { $regex: daiquiri }}, 
+                { "lastname" : { $regex: daiquiri }}, 
+                { "username" : { $regex: daiquiri }}, 
+                { "email" : { $regex: daiquiri }}
+            ]
+        });
+        if(!users){
+            return res.status(204).json({ "message": `No User matches search parameter ${daiquiri}.` });
+        }
+        res.status(200).json(users)
+    }catch(error){
+        console.log(error)
+    }
+}
+
 
 
 module.exports = {
@@ -58,4 +82,5 @@ module.exports = {
     updateUser,
     deleteUser,
     getUser,
+    findUser
 }
