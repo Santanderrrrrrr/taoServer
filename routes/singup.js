@@ -4,7 +4,7 @@ const userModel = require('../models/schemas/User')
 const { _sendMail } = require('../utils/nodemailer')
 
 const handleNewUser = async (req, res) => {
-    const { email, password, firstname, lastname, username, telephone, picture } = req.body;
+    let { email, password, firstname, lastname, username, telephone, picture } = req.body;
     if (!firstname || !lastname) return res.status(400).json({ 'message': 'We need at least the first and last name' });
     if (!password || !username) return res.status(400).json({ 'message': 'The password and username fields cannot be left empty' });
     if (!telephone || !email) return res.status(400).json({ 'message': 'Email and telephone fields must be filled' });

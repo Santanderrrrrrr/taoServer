@@ -7,7 +7,7 @@ const likeModel = require('../models/schemas/Like')
 
 
 exports.createProduct = async function(req, res){
-    const {name, description, price, images, inventory, category, size, gender } = req.body;
+    let {name, description, price, images, inventory, category, size, gender } = req.body;
     if (!req.user || !description || !price || !images ||!inventory || !category || !size || !gender) return res.status(400).json({ 'message': 'All fields must be filled!' });
     name=name.toLowerCase();
     description = description.toLowerCase();
