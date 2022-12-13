@@ -26,6 +26,8 @@ router.route('/')
 
 router.route('/find/:daiquiri')
     .get(userControllers.findUser)
+router.route('/follow/:userId')
+    .get(userControllers.follow)
 
 router.route('/:id')
     .get(userControllers.getUser);
