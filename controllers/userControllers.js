@@ -12,7 +12,7 @@ const getAllUsers = async(req, res)=>{
         res.json(users);
     } catch (error) {
         console.log(error)
-        res.status(500).json({message: `failed with error ${e.message}`})
+        res.status(500).json({message: `failed with error ${error.message}`})
     }
 }
 
@@ -34,7 +34,7 @@ const updateUser = async(req, res)=>{
         }); 
     } catch (error) {
         console.log(error)
-        res.status(500).json({message: `failed with error ${e.message}`})
+        res.status(500).json({message: `failed with error ${error.message}`})
     }
 }
 
@@ -52,7 +52,7 @@ const updateUser = async(req, res)=>{
         res.json({result, "message":`User ${user.username} of id ${req.body.id} deleted`});
     }catch(error){
         consle.log(error)
-        res.status(500).json({message: `failed with error ${e.message}`})
+        res.status(500).json({message: `failed with error ${error.message}`})
     }
 }
 
@@ -67,7 +67,7 @@ const getUser = async (req, res) => {
         }
         res.json({user});
     } catch (error) {
-        res.status(500).json({message: `failed with error ${e.message}`})
+        res.status(500).json({message: `failed with error ${error.message}`})
     }
 }
 
@@ -92,7 +92,7 @@ const findUser = async(req, res)=>{
         res.status(200).json(users)
     }catch(error){
         console.log(error)
-        res.status(500).json({message: `failed with error ${e.message}`})
+        res.status(500).json({message: `failed with error ${error.message}`})
     }
 }
 
