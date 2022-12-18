@@ -22,9 +22,14 @@ const productSchema = new mongoose.Schema({
         required: true,
         ref: 'Gender'
     },
+    brandId:{
+        type: ObjectID,
+        required: true,
+        ref: 'Brand'
+    },
     inventory:{
         type: Number,
-        required: true,
+        // required: true,
     },
     discount:{
         type: String,
@@ -59,7 +64,10 @@ productSchema.index({
     // '$**': 'text'
     name: "text",
     description: "text",
+    // brand: "text",
   })
+
+  
 
 // productSchema.methods.toJSON = function(){
 //     const product = this;

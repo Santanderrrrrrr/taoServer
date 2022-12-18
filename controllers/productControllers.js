@@ -4,20 +4,21 @@ const sizeModel = require('../models/schemas/Size')
 const UserModel = require('../models/schemas/User')
 const genderModel = require('../models/schemas/Gender')
 const likeModel = require('../models/schemas/Like')
+const brandModel = require('../models/schemas/Brand')
 
 
 exports.createProduct = async function(req, res){
-    let {name, description, price, images, inventory, category, size, gender } = req.body;
-    if (!req.user || !description || !price || !images ||!inventory || !category || !size || !gender) return res.status(400).json({ 'message': 'All fields must be filled!' });
-    name=name.toLowerCase();
+    let {name, description, price, images, inventory, category, size, gender, brand } = req.body;
+    if (!req.user || !description || !price || !images ||!inventory || !category || !size || !gender || !brand) return res.status(400).json({ 'message': 'All fields must be filled!' });
+    name = name.toLowerCase();
     description = description.toLowerCase();
     price = price.toLowerCase();
     images = images.toLowerCase();
     inventory = inventory.toLowerCase();
-    category = category.toLowerCase();
-    size = size.toLowerCase();
-    gender = gender.toLowerCase();
-   
+    category = category.toLowerCase();//
+    if(brand){
+        brand = brand.toLowerCase();
+    }
     
     // create product(should check for duplicate product in the db) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     
@@ -28,6 +29,8 @@ exports.createProduct = async function(req, res){
         if(!Size) Size = await sizeModel.create({"name":size})
         let Gender = await genderModel.findOne({"name": gender})
         if(!Gender) Gender = await genderModel.create({"name":gender})
+        let daBrand = await brandModel.findOne({"name": brand})
+        if(!daBrand) daBrand = await brandModel.create({"name":brand})
 
         const Product = await productModel.create({sellerId : req.id , name, description, price, inventory, images, categoryId : Category._id, sizeId: Size._id, genderId: Gender._id})
         res.status(201).send(Product)
@@ -46,8 +49,14 @@ exports.createProduct = async function(req, res){
 
 exports.getAllProducts = async function(req, res){
     try{
-        
-        const products = await productModel.find();
+        const products = await productModel.find()
+            .sort({ _id: -1 })
+            .populate("sellerId", "username")
+            .populate("categoryId", "name")
+            .populate("sizeId", "name")
+            .populate("genderId", "name")
+            .populate("brandId", "name")   
+            .exec()     
         if (!products) return res.status(400).json({ "message": "No products yet... Add the first one!" });
         res.json(products);
     }catch(error){
@@ -61,8 +70,15 @@ exports.updateProduct = async function(req, res){
     try{    
         console.log(req.body)
         const { updates, prodId } = req.body
-        console.log('these are the updates: ',updates)
-        console.log('this is the prodId: ',prodId)
+        // console.log('these are the updates: ',updates)
+        // console.log('this is the prodId: ',prodId)
+
+        for(let [update, value ] of Object.entries(updates)){
+            let stringValues = ["description", "name", "brand"]
+            if(stringValues.indexOf(`${update}`) !== -1 && typeof value === "string") updates[update] = value.toLowerCase();
+        }
+
+        console.log(updates)
         
         if(!updates) return res.status(400).json({ "message": "no changes registered"})
         if(updates.category){
@@ -80,15 +96,21 @@ exports.updateProduct = async function(req, res){
             delete updates.gender
             updates.genderId = cat._id
         }
+        if(updates.brand){
+            let daBrand = await brandModel.findOne({name: updates.brand})
+            if(!daBrand) daBrand = await brandModel.create({"name":updates.brand})
+            delete updates.brand
+            updates.brandId = daBrand._id
+        }
 
         
             
         await productModel.findOneAndUpdate({'_id': prodId }, {'$set':updates}, {new: true})
-        .sort({ _id: -1 })
         .populate("sellerId", "username")
         .populate("categoryId", "name")
         .populate("sizeId", "name")
         .populate("genderId", "name")
+        .populate("brandId", "name")
         .exec(function(err, product){
             if (err){
                 throw new Error(err.message)
@@ -99,7 +121,7 @@ exports.updateProduct = async function(req, res){
         });
     }catch(error){
         console.log(error)
-        res.status(500).send(err.message)
+        res.status(500).send(error.message)
     }
 }
 
@@ -148,6 +170,7 @@ exports.getUserProds = async(req, res)=>{
         .populate("categoryId", "name")
         .populate("sizeId", "name")
         .populate("genderId", "name")
+        .populate("brandId", "name")
         .exec()
     if(!products){
         return res.status(404).send({ "message": "User has no products just yet. :)"})
@@ -264,9 +287,10 @@ exports.findProduct = async(req, res)=>{
             "$or": [ 
                 { "name" : { $regex: daiquiri }}, 
                 { "description" : { $regex: daiquiri }}, 
+                // { "brand" : { $regex: daiquiri }}, 
             ]
         });
-        console.log(products)
+        // console.log(products)
         if(!products){
             return res.status(204).json({ "message": `No Product matches search parameter ${daiquiri}.` });
         }
