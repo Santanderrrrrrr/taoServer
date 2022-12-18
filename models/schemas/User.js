@@ -65,6 +65,15 @@ const userSchema = new mongoose.Schema({
 }, {minimize: false, timestamps: true});
 
 
+// userSchema.index({
+//   // '$**': 'text'
+//   firstname: "text",
+//   lastname: "text",
+//   username: "text",
+//   email: "text",
+// })
+
+
 //the following pre find populates the stated fields. It's beautiful!
 userSchema.pre(/^find/, function (next) {
   if (this.options._recursed) {
