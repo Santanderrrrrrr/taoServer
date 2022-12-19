@@ -8,13 +8,11 @@ const brandModel = require('../models/schemas/Brand')
 
 
 exports.createProduct = async function(req, res){
-    let {name, description, price, images, inventory, category, size, gender, brand } = req.body;
-    if (!req.user || !description || !price || !images ||!inventory || !category || !size || !gender || !brand) return res.status(400).json({ 'message': 'All fields must be filled!' });
+    let {name, description, price, images, category, size, gender, brand, condition } = req.body;
+    if (!req.user || !description || !price || !images ||!condition || !category || !size || !gender || !brand || !name) return res.status(400).json({ 'message': 'All fields must be filled!' });
     name = name.toLowerCase();
     description = description.toLowerCase();
-    price = price.toLowerCase();
-    images = images.toLowerCase();
-    inventory = inventory.toLowerCase();
+    condition = condition.toLowerCase();
     category = category.toLowerCase();//
     if(brand){
         brand = brand.toLowerCase();
@@ -32,10 +30,10 @@ exports.createProduct = async function(req, res){
         let daBrand = await brandModel.findOne({"name": brand})
         if(!daBrand) daBrand = await brandModel.create({"name":brand})
 
-        const Product = await productModel.create({sellerId : req.id , name, description, price, inventory, images, categoryId : Category._id, sizeId: Size._id, genderId: Gender._id})
+        const Product = await productModel.create({sellerId : req.id , name, description, price, images, categoryId : Category._id, sizeId: Size._id, genderId: Gender._id, brandId: daBrand._id, condition: condition})
         res.status(201).send(Product)
         
-        Product.categoryID = Category._id
+        Product.categoryId = Category._id
         await Product.save()
         
     } catch(e){

@@ -29,7 +29,8 @@ const productSchema = new mongoose.Schema({
     },
     inventory:{
         type: Number,
-        // required: true,
+        required: false,
+        default: 1
     },
     discount:{
         type: String,
@@ -41,6 +42,12 @@ const productSchema = new mongoose.Schema({
      },
      description: {
        type: String,
+       required: true
+     },
+     condition: {
+       type: String,
+       enum: ["new", "used", "slightly damaged", "damaged", "very old"],
+       default:"used",
        required: true
      },
      price: {
