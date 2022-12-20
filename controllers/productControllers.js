@@ -138,7 +138,13 @@ exports.deleteProduct = async function(req, res){
 exports.getProduct = async function(req, res){
     if (!req?.params?.prodID) return res.status(400).json({ 'message': 'Product ID required.' });
 
-    const product = await productModel.findOne({ _id: req.params.prodID }).exec();
+    const product = await productModel.findOne({ _id: req.params.prodID })
+    .populate("sellerId")
+    .populate("categoryId", "name")
+    .populate("sizeId", "name")
+    .populate("genderId", "name")
+    .populate("brandId", "name")
+    .exec()
     if (!product) {
         console.log('so there are no products yet')
         return res.status(204).json({ "message": `No Product matches ID ${req.params.id}.` });
