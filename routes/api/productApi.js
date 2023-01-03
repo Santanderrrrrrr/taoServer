@@ -22,10 +22,12 @@ router.route('/find/:daiquiri')
     .get(productController.findProduct)
 router.route('/like')
     .patch(productController.likeProduct);
-router.route('/u/:userId')
-    .get(productController.getUserProds)
 router.route('/unlike')
     .patch(productController.unlikeProduct);
+router.route('/feed')
+    .get(productController.populateFeed);
+router.route('/u/:userId')
+    .get(productController.getUserProds)
 router.route('/:prodID')
     .get(productController.getProduct);
 

@@ -303,3 +303,37 @@ exports.findProduct = async(req, res)=>{
         console.log(error)
     }
 }
+
+exports.populateFeed = async(req, res)=>{
+    const user = req.id
+    const page = req.query.page || 1
+    const skip = (page - 1 )* 10
+    console.log("page = ",req.query.page)
+    if(!user) throw new Error({"message": "User ID not in request"})
+    if(!page) throw new Error({"message": "Page number not in request"})
+    try {
+        const currentUser = await UserModel.findById(user)
+        await productModel.find({ sellerId: { $in: currentUser.following } })
+            .populate("sellerId", "username")
+            .populate("categoryId", "name")
+            .populate("sizeId", "name")
+            .populate("genderId", "name")
+            .populate("brandId", "name")   
+            .skip(skip)
+            .limit(10)
+            .sort({ createdAt: -1 })
+            .exec((err, products) => { //limit(2).
+                if (err) {
+                    // Handle the error
+                    console.error(err);
+                    res.status(500).send('Error retrieving home feed');
+                } else {
+                    // Send the products to the frontend
+                    res.status(200).json({ products: products });
+                }
+            });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: `failed with error: ${error.message}`})
+    }
+}
